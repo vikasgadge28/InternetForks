@@ -5,7 +5,8 @@ import { useFormContext } from "@/context/FormContext";
 import { ChangeEvent, useState } from "react";
 
 const LocationContactForm = () => {
-  const { formData, updateFormData, setCurrentStep } = useFormContext();
+  const { formData, updateFormData, setCurrentStep, resetFormData } =
+    useFormContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -53,18 +54,33 @@ const LocationContactForm = () => {
     } else if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
     } else {
+      console.log("Form Data Submitted:", {
+        ...formData.step1,
+        ...formData.step2,
+      });
       setIsSubmitted(true);
     }
   };
 
   if (isSubmitted) {
     return (
-      <div className="px-6 max-w-lg bg-white  border-l  flex flex-col items-center justify-center  mt-20">
-        <div className="flex items-center justify-center rounded-full bg-[#DCE2FF] p-1 mb-4">
-          <img src="/submitted.png" alt="check" className="w-16 h-16" />
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg text-center">
+          <div className="flex justify-center mb-4">
+            <img src="/submitted.png" alt="check" className="w-16 h-16" />
+          </div>
+          <h2 className="text-lg font-semibold mb-4">
+            Form Submitted Successfully!
+          </h2>
+          <button
+            onClick={() => {
+              resetFormData();
+              setIsSubmitted(false);
+            }}
+            className="bg-[#001D44] text-white px-6 py-2 rounded-full hover:bg-[#001D44]/80">
+            Close
+          </button>
         </div>
-
-        <h2 className="text-lg font-semibold">Form Submitted</h2>
       </div>
     );
   }

@@ -32,6 +32,7 @@ interface FormContextType {
   ) => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   currentStep: number;
+  resetFormData: () => void;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -55,7 +56,16 @@ export function FormProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <FormContext.Provider
-      value={{ formData, updateFormData, currentStep, setCurrentStep }}>
+      value={{
+        formData,
+        updateFormData,
+        currentStep,
+        setCurrentStep,
+        resetFormData: () => {
+          setFormData({ step1: {}, step2: {} });
+          setCurrentStep(1);
+        },
+      }}>
       {children}
     </FormContext.Provider>
   );
