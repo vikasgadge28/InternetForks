@@ -7,9 +7,6 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-interface PageLayoutProps {
-  children: React.ReactNode;
-}
 
 export default function RootLayout({
   children,
